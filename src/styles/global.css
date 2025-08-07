@@ -1,6 +1,5 @@
 /* Global CSS Variables */
 :root {
-    --font-size: 16px;
     --background: #ffffff;
     --foreground: oklch(0.145 0 0);
     --card: #ffffff;
@@ -96,6 +95,17 @@
     --color-slate-blue-light: var(--slate-blue-light);
     --color-slate-blue-lighter: var(--slate-blue-lighter);
     --color-slate-blue-dark: var(--slate-blue-dark);
+
+    /* Gray shades */
+    --color-gray-100: #f7fafc;
+    --color-gray-200: #edf2f7;
+    --color-gray-300: #e2e8f0;
+    --color-gray-400: #cbd5e0;
+    --color-gray-500: #a0aec0;
+    --color-gray-600: #718096;
+    --color-gray-700: #4a5568;
+    --color-gray-800: #2d3748;
+    --color-gray-900: #1a202c;
 }
 
 /* Dark mode */
@@ -156,7 +166,7 @@ html {
 }
 
 body {
-    background-color: var(--background);
+    background-color: var(--color-gray-100);
     color: var(--foreground);
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, sans-serif;
 }
@@ -190,12 +200,19 @@ p {
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+    margin: 0;
 }
 
 label {
     font-size: var(--text-base);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
+}
+
+kbd {
+    background-color: var(--color-gray-200);
+    border-radius: var(--radius);
+    padding: 0.25rem 0.5rem;
 }
 
 /* button {
@@ -327,4 +344,15 @@ input {
 
 .rounded-xl {
     border-radius: var(--radius-xl);
+}
+
+/* Card class for reusable card styling */
+.card {
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-gentle);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }

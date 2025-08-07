@@ -1,5 +1,6 @@
 import Layout from "../layouts/Layout";
 import { InputPanel } from "../components/InputPanel";
+import { EmptyState } from "../components/EmptyState";
 
 const Dashboard = () => {
     const handleAnalyze = (text: string) => {
@@ -9,6 +10,7 @@ const Dashboard = () => {
     return (
         <Layout>
             <InputPanel onAnalyze={handleAnalyze} isLoading={false} />
+            <EmptyState />
         </Layout>
     );
 };

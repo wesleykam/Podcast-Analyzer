@@ -5,7 +5,7 @@
     padding: 1rem;
 }
 
-.empty-state-card {
+.card.empty-state-card {
     padding: 4rem;
     text-align: center;
     display: flex;

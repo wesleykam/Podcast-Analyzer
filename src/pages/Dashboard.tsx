@@ -24,8 +24,8 @@ const Dashboard = () => {
     return (
         <Layout>
             <InputPanel onAnalyze={handleAnalyze} isLoading={false} />
-            
-            {summary && organizations && insights ? (
+
+            {summary.length > 0 && organizations.length > 0 && insights.length > 0 ? (
                 <ResultsDashboard
                     summary={summary}
                     organizations={organizations}

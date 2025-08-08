@@ -1,22 +1,37 @@
+import { useState } from "react";
 import Layout from "../layouts/Layout";
 import { InputPanel } from "../components/InputPanel";
 import { EmptyState } from "../components/EmptyState";
 import { ResultsDashboard } from "../components/ResultsDashboard";
 
 const Dashboard = () => {
-    const handleAnalyze = (text: string) => {
-        console.log("Analyzing:", text);
+    const [summary, setSummary] = useState<string[]>([]);
+    const [organizations, setOrganizations] = useState<string[]>([]);
+    const [insights, setInsights] = useState<string[]>([]);
+
+    const handleAnalyze = (data: string) => {
+        try {
+            const parsedData = JSON.parse(data);
+
+            setSummary(parsedData.summary);
+            setOrganizations(parsedData.mentioned_organizations);
+            setInsights(parsedData.actionable_insights);
+        } catch (error) {
+            console.error("Failed to parse data:", error);
+        }
     };
 
     return (
         <Layout>
             <InputPanel onAnalyze={handleAnalyze} isLoading={false} />
-            <EmptyState />
-            <ResultsDashboard
-                summary={["Summary Item 1", "Summary Item 2"]}
-                organizations={[{ id: "1", name: "Org 1", type: "company" }]}
-                insights={[{ id: "1", title: "Insight 1", rationale: "Rationale 1", tag: "strategy" }]}
-            />
+            
+            {summary && organizations && insights ? (
+                <ResultsDashboard
+                    summary={summary}
+                    organizations={organizations}
+                    insights={insights}
+                />
+            ) : <EmptyState />}
         </Layout>
     );
 };

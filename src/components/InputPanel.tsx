@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./InputPanel.css";
 
 interface InputPanelProps {
-    onAnalyze: (text: string) => void;
+    onAnalyze: (data: any) => void;
     isLoading: boolean;
 }
 
@@ -23,7 +23,9 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
                 const payload = inputMode === 'url' ? { url: inputText.trim() } : { text: inputText.trim() };
 
                 const response = await axios.post(endpoint, payload);
-                console.log('Response Data:', response.data);
+
+                // Pass the full response data to the parent component
+                onAnalyze(response.data);
             } catch (error) {
                 console.error('Error analyzing input:', error);
             }
@@ -71,13 +73,6 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
 
         if (textFile) {
             handleFileSelect(textFile);
-        }
-    };
-
-    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            handleFileSelect(file);
         }
     };
 

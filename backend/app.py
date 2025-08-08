@@ -71,7 +71,7 @@ def analyze_text():
 
 
 class TranscriptAnalysis(BaseModel):
-    summary: str
+    summary: list[str]
     mentioned_organizations: list[str]
     actionable_insights: list[str]
 
@@ -79,16 +79,16 @@ class TranscriptAnalysis(BaseModel):
 def process_transcript_with_groq(transcript):
     prompt = (
         "You are a healthcare technology analyst. Given the following transcript from a health tech podcast, perform the following tasks:\n\n"
-        "1. Generate a concise 3-bullet summary that captures the key points or themes discussed in the episode.\n\n"
+        "1. Generate a concise list of 3 key takeaways that captures the key points or themes discussed in the episode.\n\n"
         "2. Extract and list all healthcare organizations, companies, and technologies that are mentioned, including startups, hospital systems, software platforms, devices, and standards (e.g., Epic, Mayo Clinic, HL7, AI triage tools).\n\n"
-        "3. Identify 2-3 actionable insights or strategic recommendations for healthcare IT leaders based on the discussion. These should be practical takeaways they can apply to improve digital transformation, data strategy, cybersecurity, patient experience, or operational efficiency.\n\n"
-        "Format your response under clear section headers:\n\n"
+        "3. Identify a list of 2-3 actionable insights or strategic recommendations for healthcare IT leaders based on the discussion. These should be practical takeaways they can apply to improve digital transformation, data strategy, cybersecurity, patient experience, or operational efficiency.\n\n"
+        "Format your response in JSON format:\n\n"
         "{\n"
-        "    summary: str\n"
-        "    mentioned_organizations: list[str]\n"
-        "    actionable_insights: list[str]\n"
-        "}"
-    )
+        "    \"summary\": [\"...\", \"...\", \"...\"],\n"
+        "    \"mentioned_organizations\": [\"...\", \"...\"],\n"
+        "    \"actionable_insights\": [\"...\", \"...\"]\n"
+    "}"
+)
 
     try:
         chat_completion = client.chat.completions.create(

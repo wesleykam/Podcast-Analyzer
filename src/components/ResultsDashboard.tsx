@@ -1,43 +1,12 @@
-import { useState } from "react";
+import { Copy, Download, MessageSquare, Search, Users, Building2 } from "lucide-react";
 import "./ResultsDashboard.css";
-import {
-    Copy,
-    Download,
-    MessageSquare,
-    Search,
-    Target,
-    Shield,
-    Network,
-    TrendingUp,
-    Users,
-    Building2,
-} from "lucide-react";
-
-interface Insight {
-    id: string;
-    title: string;
-    rationale: string;
-    tag: "strategy" | "security" | "interoperability" | "efficiency";
-}
-
-interface Organization {
-    id: string;
-    name: string;
-    type: "company" | "healthcare" | "tech";
-}
+import { useState } from "react";
 
 interface ResultsDashboardProps {
     summary: string[];
-    organizations: Organization[];
-    insights: Insight[];
+    organizations: string[];
+    insights: string[];
 }
-
-const tagIcons = {
-    strategy: Target,
-    security: Shield,
-    interoperability: Network,
-    efficiency: TrendingUp,
-};
 
 export function ResultsDashboard({
     summary,
@@ -45,9 +14,8 @@ export function ResultsDashboard({
     insights,
 }: ResultsDashboardProps) {
     const [searchTerm, setSearchTerm] = useState("");
-
     const filteredOrganizations = organizations.filter((org) =>
-        org.name.toLowerCase().includes(searchTerm.toLowerCase())
+        org.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const handleExport = (type: "copy" | "pdf" | "slack") => {
@@ -55,16 +23,14 @@ export function ResultsDashboard({
             case "copy":
                 const exportText = `
 Summary:
-${summary.map((item, i) => `${i + 1}. ${item}`).join("\n")}
+${summary}
 
 Organizations Mentioned:
-${organizations.map((org) => `• ${org.name}`).join("\n")}
+${organizations.map((org) => `• ${org}`).join("\n")}
 
 Key Insights:
-${insights
-                        .map((insight) => `• ${insight.title}: ${insight.rationale}`)
-                        .join("\n")}
-        `;
+${insights.map((insight) => `• ${insight}`).join("\n")}
+                `;
                 navigator.clipboard.writeText(exportText.trim());
                 break;
             case "pdf":
@@ -113,9 +79,9 @@ ${insights
                     </div>
                     <div className="card-content">
                         <div className="badge-container">
-                            {filteredOrganizations.map((org) => (
-                                <span key={org.id} className="badge">
-                                    {org.name}
+                            {filteredOrganizations.map((org, index) => (
+                                <span key={index} className="badge">
+                                    {org}
                                 </span>
                             ))}
                         </div>
@@ -133,21 +99,16 @@ ${insights
                     </div>
                     <div className="card-content">
                         <div className="insights-list">
-                            {insights.map((insight) => {
-                                const IconComponent = tagIcons[insight.tag];
-                                return (
-                                    <div key={insight.id} className="insight-item">
-                                        <div className="insight-icon">
-                                            <IconComponent />
-                                        </div>
-                                        <div className="insight-details">
-                                            <h4 className="insight-title">{insight.title}</h4>
-                                            <p className="insight-text">{insight.rationale}</p>
-                                            <span className="insight-tag">{insight.tag}</span>
-                                        </div>
+                            {insights.map((insight, index) => (
+                                <div key={index} className="insight-item">
+                                    <div className="insight-icon">
+                                        <span className="insight-index">{index + 1}</span>
                                     </div>
-                                );
-                            })}
+                                    <div className="insight-details">
+                                        <p className="insight-text">{insight}</p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

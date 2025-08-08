@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Upload, Sparkles, Link, Type } from "lucide-react";
+import axios from 'axios';
 import "./InputPanel.css";
 
 interface InputPanelProps {
@@ -15,9 +16,17 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
     const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (inputText.trim()) {
-            onAnalyze(inputText.trim());
+            try {
+                const endpoint = inputMode === 'url' ? 'http://localhost:5000/analyze-url' : 'http://localhost:5000/analyze-text';
+                const payload = inputMode === 'url' ? { url: inputText.trim() } : { text: inputText.trim() };
+
+                const response = await axios.post(endpoint, payload);
+                console.log('Response Data:', response.data);
+            } catch (error) {
+                console.error('Error analyzing input:', error);
+            }
         }
     };
 

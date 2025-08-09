@@ -47,7 +47,6 @@ class TranscriptProcessor:
             )
 
 
-
     def process_with_groq(self, transcript: str):
         try:
             chat_completion = self.groq_client.chat.completions.create(
@@ -71,6 +70,7 @@ class TranscriptProcessor:
 
         except Exception as e:
             return {"error": str(e)}
+
 
     def process_with_openai(self, transcript: str):
         try:

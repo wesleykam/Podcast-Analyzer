@@ -4,10 +4,15 @@ import { InputPanel } from "../components/InputPanel";
 import { EmptyState } from "../components/EmptyState";
 import { ResultsDashboard } from "../components/ResultsDashboard";
 
+interface ActionableInsight {
+    header: string;
+    detail: string;
+}
+
 const Dashboard = () => {
     const [summary, setSummary] = useState<string[]>([]);
     const [organizations, setOrganizations] = useState<string[]>([]);
-    const [insights, setInsights] = useState<string[]>([]);
+    const [insights, setInsights] = useState<ActionableInsight[]>([]);
 
     const handleAnalyze = (data: string) => {
         try {

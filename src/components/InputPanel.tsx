@@ -110,7 +110,7 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
                                 aria-selected={inputMode === 'url'}
                                 aria-controls="input-panel"
                             >
-                                <Link className="icon" />
+                                <Link className="icon" size={16} />
                                 <span>URL</span>
                             </button>
 
@@ -122,7 +122,7 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
                                 aria-selected={inputMode === 'text'}
                                 aria-controls="input-panel"
                             >
-                                <Type className="icon" />
+                                <Type className="icon" size={16} />
                                 <span>Text</span>
                             </button>
                         </div>

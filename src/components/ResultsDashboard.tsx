@@ -1,11 +1,16 @@
-import { Copy, Download, MessageSquare, Search, Users, Building2 } from "lucide-react";
+import { Copy, Download, MessageSquare, Search, Users, Building2, FileText } from "lucide-react";
 import "./ResultsDashboard.css";
 import { useState } from "react";
+
+interface ActionableInsight {
+    header: string;
+    detail: string;
+}
 
 interface ResultsDashboardProps {
     summary: string[];
     organizations: string[];
-    insights: string[];
+    insights: ActionableInsight[];
 }
 
 export function ResultsDashboard({
@@ -22,14 +27,14 @@ export function ResultsDashboard({
         switch (type) {
             case "copy":
                 const exportText = `
-Summary:
-${summary}
+                Summary:
+                ${summary}
 
-Organizations Mentioned:
-${organizations.map((org) => `• ${org}`).join("\n")}
+                Organizations Mentioned:
+                ${organizations.map((org) => `• ${org}`).join("\n")}
 
-Key Insights:
-${insights.map((insight) => `• ${insight}`).join("\n")}
+                Key Insights:
+                ${insights.map((insight) => `• ${insight.header}: ${insight.detail}`).join("\n")}
                 `;
                 navigator.clipboard.writeText(exportText.trim());
                 break;
@@ -46,7 +51,9 @@ ${insights.map((insight) => `• ${insight}`).join("\n")}
         <div className="results-dashboard">
             <div className="card">
                 <div className="card-header">
-                    <h3 className="card-title">Key Takeaways</h3>
+                    <h3 className="card-title">
+                        <FileText className="icon" /> Key Takeaways
+                    </h3>
                 </div>
                 <div className="card-content">
                     <ol className="summary-list">
@@ -105,7 +112,8 @@ ${insights.map((insight) => `• ${insight}`).join("\n")}
                                         <span className="insight-index">{index + 1}</span>
                                     </div>
                                     <div className="insight-details">
-                                        <p className="insight-text">{insight}</p>
+                                        <p className="insight-header">{insight.header}</p>
+                                        <p className="insight-text">{insight.detail}</p>
                                     </div>
                                 </div>
                             ))}

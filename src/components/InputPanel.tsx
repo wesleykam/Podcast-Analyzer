@@ -16,12 +16,14 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
     const [inputMode, setInputMode] = useState<InputMode>('url');
     const [isDragging, setIsDragging] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async () => {
         if (inputText.trim()) {
             try {
                 setIsLoading(true);
+                setErrorMessage(null); // Clear any previous error message
 
                 const endpoint = inputMode === 'url' ? 'http://localhost:5000/analyze-url' : 'http://localhost:5000/analyze-text';
                 const payload = inputMode === 'url' ? { url: inputText.trim() } : { text: inputText.trim() };
@@ -32,6 +34,13 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
                 onAnalyze(response.data);
             } catch (error) {
                 console.error('Error analyzing input:', error);
+
+                // Type-check the error object before accessing its properties
+                if (axios.isAxiosError(error) && error.response?.data?.error) {
+                    setErrorMessage(error.response.data.error);
+                } else {
+                    setErrorMessage('Failed to analyze input. Please try again.');
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -243,6 +252,13 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
                     <p className="shortcut-hint">
                         Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to analyze
                     </p>
+
+                    {/* Error Message Display */}
+                    {errorMessage && (
+                        <div className="error-message" role="alert">
+                            {errorMessage}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

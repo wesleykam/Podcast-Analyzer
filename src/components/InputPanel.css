@@ -195,3 +195,9 @@
     font-size: 0.75rem;
     color: var(--color-gray-500);
 }
+
+.error-message {
+    font-size: 0.875rem;
+    color: var(--color-red-600);
+    margin-top: -0.5rem;
+}

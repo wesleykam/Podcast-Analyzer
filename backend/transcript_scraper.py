@@ -96,8 +96,6 @@ class TranscriptScraper:
         src = iframe.get_attribute("src")
         if not src:
             return ""
-
-        breakpoint
         
         original = driver.current_window_handle
         driver.switch_to.default_content()
@@ -135,7 +133,7 @@ class TranscriptScraper:
 
 if __name__ == "__main__":
     # Replace this with a page URL that contains ONLY an iframe transcript
-    test_url = "https://thisweekhealth.com/captivate-podcast/newsday-prior-auth-ai-and-breaking-down-geographic-barriers-with-colin-banas/"
+    test_url = "https://thisweekhealth.com/"
 
     scraper = TranscriptScraper(strip_timestamps=True)  # change to True if you want timestamps removed
     driver = scraper.new_driver()

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Upload, Sparkles, Link, Type } from "lucide-react";
 import axios from 'axios';
 import "./InputPanel.css";
+import Loading from './Loading';
 
 interface InputPanelProps {
     onAnalyze: (data: any) => void;
@@ -10,15 +11,18 @@ interface InputPanelProps {
 
 type InputMode = 'url' | 'text';
 
-export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
+export function InputPanel({ onAnalyze }: InputPanelProps) {
     const [inputText, setInputText] = useState("");
     const [inputMode, setInputMode] = useState<InputMode>('url');
     const [isDragging, setIsDragging] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async () => {
         if (inputText.trim()) {
             try {
+                setIsLoading(true);
+
                 const endpoint = inputMode === 'url' ? 'http://localhost:5000/analyze-url' : 'http://localhost:5000/analyze-text';
                 const payload = inputMode === 'url' ? { url: inputText.trim() } : { text: inputText.trim() };
 
@@ -28,6 +32,8 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
                 onAnalyze(response.data);
             } catch (error) {
                 console.error('Error analyzing input:', error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
@@ -229,6 +235,9 @@ export function InputPanel({ onAnalyze, isLoading }: InputPanelProps) {
                             Powered by <span className="highlight">OpenAI</span> / <span className="highlight">Claude</span>
                         </p>
                     </div>
+
+                    {/* Loading Component */}
+                    {isLoading && <Loading />}
 
                     {/* Keyboard Shortcut Hint */}
                     <p className="shortcut-hint">

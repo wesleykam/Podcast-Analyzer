@@ -13,7 +13,6 @@ from transcript_processor import TranscriptProcessor
 from transcript_scraper import TranscriptScraper
 
 
-
 app = Flask(__name__)
 CORS(app)
 
@@ -39,7 +38,14 @@ def analyze_url():
         transcript = scraper.extract(driver)
 
         if not transcript:
-            return jsonify({"error": "Transcript not found on the page"}), 404
+            return (
+                jsonify(
+                    {
+                        "error": "Transcript not found on the page. Please check the URL or try another source."
+                    }
+                ),
+                404,
+            )
 
         # Process the transcript
         result = transcript_processor.process_with_openai(transcript)

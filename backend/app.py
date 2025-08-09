@@ -10,13 +10,16 @@ from openai import OpenAI
 
 from pydantic import BaseModel
 from transcript_processor import TranscriptProcessor
+from transcript_scraper import TranscriptScraper
+
 
 
 app = Flask(__name__)
 CORS(app)
 
-# Initialize TranscriptProcessor
+# Initialize Processor & Scraper
 transcript_processor = TranscriptProcessor()
+scraper = TranscriptScraper(strip_timestamps=True)
 
 
 @app.route("/analyze-url", methods=["POST"])
@@ -27,30 +30,19 @@ def analyze_url():
     if not url:
         return jsonify({"error": "URL is required"}), 400
 
-    # Set up Selenium WebDriver
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install()), options=options
-    )
+    driver = scraper.new_driver()
 
     try:
         driver.get(url)
 
-        # Example: Scrape transcript based on class name (adjust as needed)
-        transcript_elements = driver.find_elements(
-            By.CLASS_NAME, "cfm-transcript-content"
-        )
-        transcript = " ".join([element.text for element in transcript_elements])
+        # Use the OOP scraper (tries basic first, then iframe-in-new-tab)
+        transcript = scraper.extract(driver)
 
         if not transcript:
             return jsonify({"error": "Transcript not found on the page"}), 404
 
         # Process the transcript
         result = transcript_processor.process_with_openai(transcript)
-
         return jsonify(result)
 
     except Exception as e:
@@ -69,7 +61,6 @@ def analyze_text():
         return jsonify({"error": "Text is required"}), 400
 
     try:
-        # Process the text
         result = transcript_processor.process_with_openai(text)
         return jsonify(result)
 
@@ -78,4 +69,5 @@ def analyze_text():
 
 
 if __name__ == "__main__":
+    # Bind to 0.0.0.0 for container use; change port if needed
     app.run(host="0.0.0.0", port=5000)

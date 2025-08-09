@@ -192,9 +192,9 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
                         <div id="input-help" className="help-text">
                             <p>
                                 {inputMode === 'url' ? (
-                                    <>Compatible with <span className="highlight">ThisWeekHealth.com</span> & <span className="highlight">YouTube</span> transcript URLs</>
+                                    <>Compatible with <span className="highlight">ThisWeekHealth.com</span> transcript URLs</>
                                 ) : (
-                                    <>Compatible with <span className="highlight">ThisWeekHealth.com</span> & <span className="highlight">YouTube</span> transcript text</>
+                                    <>Compatible with <span className="highlight">ThisWeekHealth.com</span> transcript text</>
                                 )}
                             </p>
 

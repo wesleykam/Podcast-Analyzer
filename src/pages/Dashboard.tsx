@@ -9,18 +9,22 @@ interface ActionableInsight {
     detail: string;
 }
 
+interface DashboardData {
+    summary: string[];
+    mentioned_organizations: string[];
+    actionable_insights: ActionableInsight[];
+}
+
 const Dashboard = () => {
     const [summary, setSummary] = useState<string[]>([]);
     const [organizations, setOrganizations] = useState<string[]>([]);
     const [insights, setInsights] = useState<ActionableInsight[]>([]);
 
-    const handleAnalyze = (data: string) => {
+    const handleAnalyze = (data: DashboardData) => {
         try {
-            const parsedData = JSON.parse(data);
-
-            setSummary(parsedData.summary);
-            setOrganizations(parsedData.mentioned_organizations);
-            setInsights(parsedData.actionable_insights);
+            setSummary(data.summary);
+            setOrganizations(data.mentioned_organizations);
+            setInsights(data.actionable_insights);
         } catch (error) {
             console.error("Failed to parse data:", error);
         }

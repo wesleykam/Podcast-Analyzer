@@ -1,7 +1,3 @@
-import os
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-
 import re
 from typing import List, Optional
 
@@ -49,22 +45,15 @@ class TranscriptScraper:
     # ---------- public API ----------
 
     def new_driver(self) -> webdriver.Chrome:
-        options = Options()
-        # Point to system Chromium on Render; falls back locally if not set
-        options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
-
-        # Headless + container-friendly flags
+        options = webdriver.ChromeOptions()
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1280,1200")
-
-        # If you installed chromium-driver via apt, you can use it directly:
-        chromedriver_path = os.environ.get("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")
-        service = Service(executable_path=chromedriver_path)
-
-        return webdriver.Chrome(service=service, options=options)
+        return webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()),
+            options=options,
+        )
 
     def extract(self, driver) -> str:
         """

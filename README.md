@@ -1,6 +1,6 @@
 # Podcast Transcript Analyzer — Full Stack (Frontend + Backend)
 
-A full-stack tool for analyzing podcast transcripts.
+A full-stack tool for analyzing podcast transcripts for [This Week Health](https://thisweekhealth.com/).
 
 - **Frontend:** React + Vite + TypeScript UI to input a URL or raw text and view results.
 - **Backend:** Flask API that (1) scrapes transcripts from a URL (incl. iframes) and (2) analyzes them with OpenAI or Groq to produce a structured JSON report.
@@ -193,7 +193,7 @@ For production/multi-instance, switch to **Redis** (see comments in `app.py`).
 **Body**
 
 ```json
-{ "url": "https://example.com/some-podcast-episode" }
+{ "url": "https://thisweekhealth.com/captivate-podcast/newsday-prior-auth-ai-and-breaking-down-geographic-barriers-with-colin-banas/" }
 ```
 
 **Success (200)**

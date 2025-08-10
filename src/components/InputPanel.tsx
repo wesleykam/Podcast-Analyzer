@@ -25,7 +25,7 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
                 setIsLoading(true);
                 setErrorMessage(null); // Clear any previous error message
 
-                const endpoint = inputMode === 'url' ? 'https://podcast-analyzer.onrender.com/analyze-url' : 'https://podcast-analyzer.onrender.com/analyze-text';
+                const endpoint = inputMode === 'url' ? 'http://localhost:5000/analyze-url' : 'http://localhost:5000/analyze-text';
                 const payload = inputMode === 'url' ? { url: inputText.trim() } : { text: inputText.trim() };
 
                 const response = await axios.post(endpoint, payload);

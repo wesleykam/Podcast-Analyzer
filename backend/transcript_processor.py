@@ -16,9 +16,10 @@ class TranscriptAnalysis(BaseModel):
 
 class TranscriptProcessor:
     def __init__(self):
-        self.groq_client = Groq(
-            api_key=os.environ.get("GROQ_API_KEY"),
-        )
+        # Uncomment to enable Groq processing
+        # self.groq_client = Groq(
+        #     api_key=os.environ.get("GROQ_API_KEY"),
+        # )
         self.openai_client = OpenAI(
             api_key=os.environ.get("OPENAI_API_KEY"),
         )

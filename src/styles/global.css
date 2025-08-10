@@ -265,28 +265,6 @@ kbd {
     margin: 0;
 }
 
-/* button {
-    font-size: var(--text-base);
-    font-weight: var(--font-weight-medium);
-    line-height: 1.5;
-    background-color: var(--primary);
-    color: var(--primary-foreground);
-    border: none;
-    border-radius: var(--radius);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: var(--primary-foreground);
-    color: var(--primary);
-}
-
-button:focus {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-} */
 
 input {
     font-size: var(--text-base);

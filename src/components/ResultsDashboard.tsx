@@ -48,6 +48,7 @@ export function ResultsDashboard({
     };
 
     return (
+        // Key Takeaways
         <div className="results-dashboard">
             <div className="card">
                 <div className="card-header">
@@ -68,6 +69,8 @@ export function ResultsDashboard({
             </div>
 
             <div className="grid">
+
+                {/* Mentioned Organizations & Tech */}
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">
@@ -98,6 +101,7 @@ export function ResultsDashboard({
                     </div>
                 </div>
 
+                {/* Actionable Insights */}
                 <div className="card">
                     <div className="card-header">
                         <h3 className="card-title">
@@ -122,6 +126,8 @@ export function ResultsDashboard({
                 </div>
             </div>
 
+
+            {/* Export & Share */}
             <div className="card export-card">
                 <div className="card-content">
                     <h3 className="export-title">Export & Share</h3>

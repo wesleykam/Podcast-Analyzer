@@ -34,6 +34,7 @@ const Dashboard = () => {
         <Layout>
             <InputPanel onAnalyze={handleAnalyze} isLoading={false} />
 
+            {/* Show results if available, otherwise show empty state */}
             {summary.length > 0 && organizations.length > 0 && insights.length > 0 ? (
                 <ResultsDashboard
                     summary={summary}

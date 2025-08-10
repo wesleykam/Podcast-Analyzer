@@ -1,6 +1,7 @@
 import "./EmptyState.css";
 import { FileText, Upload, Building2, TargetIcon } from "lucide-react";
 
+// UI when no transcript is uploaded
 export function EmptyState() {
     return (
         <div className="empty-state-container">

@@ -47,6 +47,7 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
         }
     };
 
+    // Ctrl + Enter to submit
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
             e.preventDefault();
@@ -54,6 +55,7 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
         }
     };
 
+    // Toggle input mode
     const handleModeChange = (mode: InputMode) => {
         setInputMode(mode);
         setInputText(""); // Clear input when switching modes

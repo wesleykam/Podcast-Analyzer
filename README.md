@@ -156,7 +156,7 @@ By default the UI calls `http://localhost:5000`. To change, set `VITE_API_BASE_U
 
 * `OPENAI_API_KEY` *(required for default analysis path)*
 * `GROQ_API_KEY` *(optional if using Groq)*
-* `FLASK_ENV` *(set to `deveopment` to enable localhost CORS)*
+* `FLASK_ENV` *(set to `development` to enable localhost CORS)*
 
 **Frontend**
 

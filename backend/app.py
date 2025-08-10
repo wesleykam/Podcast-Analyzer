@@ -9,12 +9,32 @@ from flask_caching import Cache
 from transcript_processor import TranscriptProcessor
 from transcript_scraper import TranscriptScraper
 
+
 # -----------------
 # Config
 # -----------------
 def create_app() -> Flask:
     app = Flask(__name__)
-    CORS(app)
+
+    # Configure CORS restrictions to allow only specific origins
+    ALLOWED_ORIGINS = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://whimsical-cobbler-80f1b3.netlify.app",
+    ]
+
+    CORS(
+        app,
+        resources={
+            r"/*": {
+                "origins": ALLOWED_ORIGINS,
+                "methods": ["GET", "POST", "DELETE", "OPTIONS"],
+                "allow_headers": ["Content-Type", "Authorization"],
+                # only turn this on if you need cookies:
+                # "supports_credentials": True,
+            }
+        },
+    )
 
     transcript_processor = TranscriptProcessor()
     scraper = TranscriptScraper(strip_timestamps=True)
@@ -31,7 +51,7 @@ def create_app() -> Flask:
     cache = Cache(app)
 
     # TTLs (tune as needed)
-    RESULT_TTL_SEC = 60 * 60 * 24   # 24h for final analysis
+    RESULT_TTL_SEC = 60 * 60 * 24  # 24h for final analysis
     TRANSCRIPT_TTL_SEC = 60 * 60 * 2  # 2h for URL->transcript (optional)
 
     # -----------------
@@ -66,7 +86,9 @@ def create_app() -> Flask:
         opts_hash = _sha256(json.dumps(opts, sort_keys=True, ensure_ascii=False))[:12]
         return f"transcript:{opts_hash}:{_sha256(url)}"
 
-    def cached_compute(route: str, body: Dict[str, Any], compute_fn, ttl: Optional[int] = None) -> Tuple[Any, bool]:
+    def cached_compute(
+        route: str, body: Dict[str, Any], compute_fn, ttl: Optional[int] = None
+    ) -> Tuple[Any, bool]:
         """
         Get from cache or compute + set. Returns (data, hit_bool).
         """
@@ -75,7 +97,9 @@ def create_app() -> Flask:
         if hit is not None:
             return hit, True
         data = compute_fn()
-        cache.set(key, data, timeout=ttl or app.config.get("CACHE_DEFAULT_TIMEOUT", 3600))
+        cache.set(
+            key, data, timeout=ttl or app.config.get("CACHE_DEFAULT_TIMEOUT", 3600)
+        )
         return data, False
 
     def cached_transcript(url: str) -> Tuple[str, bool]:
@@ -123,7 +147,9 @@ def create_app() -> Flask:
 
         if not transcript:
             # Not caching a "not found" final result, but transcript cache will hold empty briefly
-            return {"error": "Transcript not found on the page. Please check the URL or try another source."}
+            return {
+                "error": "Transcript not found on the page. Please check the URL or try another source."
+            }
 
         result = transcript_processor.process_with_openai(transcript)
         return normalize_processor_output(result)
@@ -143,10 +169,13 @@ def create_app() -> Flask:
             return jsonify({"error": "Missing 'url'"}), 400
 
         try:
+
             def compute():
                 return analyze_url(url)
 
-            data, hit = cached_compute("/analyze-url", {"url": url}, compute, ttl=RESULT_TTL_SEC)
+            data, hit = cached_compute(
+                "/analyze-url", {"url": url}, compute, ttl=RESULT_TTL_SEC
+            )
 
             # If processor produced an error, return it with 4xx/5xx
             if isinstance(data, dict) and "error" in data:
@@ -168,7 +197,12 @@ def create_app() -> Flask:
 
         try:
             # Hash text in the key to avoid massive keys
-            data, hit = cached_compute("/analyze-text", {"text_hash": _sha256(text)}, lambda: analyze_text(text), ttl=RESULT_TTL_SEC)
+            data, hit = cached_compute(
+                "/analyze-text",
+                {"text_hash": _sha256(text)},
+                lambda: analyze_text(text),
+                ttl=RESULT_TTL_SEC,
+            )
 
             if isinstance(data, dict) and "error" in data:
                 resp = make_response(jsonify(data), 500)

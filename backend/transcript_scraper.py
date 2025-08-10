@@ -45,11 +45,17 @@ class TranscriptScraper:
     # ---------- public API ----------
 
     def new_driver(self) -> webdriver.Chrome:
+        """
+        Set up a new Chrome WebDriver instance.
+        """
+        
         options = webdriver.ChromeOptions()
+        
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--window-size=1280,1200")
+        
         return webdriver.Chrome(
             service=Service(ChromeDriverManager().install()),
             options=options,
@@ -119,6 +125,9 @@ class TranscriptScraper:
     # ---------- helpers ----------
 
     def _clean_join(self, paragraphs: List[str]) -> str:
+        """
+        Join a list of paragraphs into a single string, with optional timestamp stripping.
+        """
         cleaned = []
         for p in paragraphs:
             t = p
@@ -131,6 +140,7 @@ class TranscriptScraper:
         return "\n".join(cleaned)
 
 
+# Test Transcript Scraper
 if __name__ == "__main__":
     # Replace this with a page URL that contains ONLY an iframe transcript
     test_url = "https://thisweekhealth.com/captivate-podcast/newsday-prior-auth-ai-and-breaking-down-geographic-barriers-with-colin-banas/"

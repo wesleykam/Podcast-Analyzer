@@ -46,8 +46,12 @@ class TranscriptProcessor:
                 "}"
             )
 
-
     def process_with_groq(self, transcript: str):
+        """
+        Process the transcript using the Groq API.
+
+        WARNING: Groq API does not guarantee json model output. It only errors out when json is not outputted.
+        """
         try:
             chat_completion = self.groq_client.chat.completions.create(
                 messages=[
@@ -71,13 +75,17 @@ class TranscriptProcessor:
         except Exception as e:
             return {"error": str(e)}
 
-
     def process_with_openai(self, transcript: str):
+        """
+        Process the transcript using the OpenAI API.
+        """
         try:
             response = self.openai_client.responses.parse(
                 model="gpt-4o-mini",
                 input=[
+                    # Prioritize Prompt Instruction
                     {"role": "developer", "content": f"{self.prompt}"},
+                    # User Provides Transcript
                     {"role": "user", "content": f"Transcript:\n\n{transcript}"},
                 ],
                 text_format=TranscriptAnalysis,

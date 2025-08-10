@@ -24,5 +24,5 @@ dist-ssr
 *.sw?
 
 .env
-__pycache__
+__pycache__/
 all_code.txt

@@ -1,3 +1,5 @@
+import os
+
 import hashlib
 import json
 from typing import Any, Dict, Tuple, Optional
@@ -17,24 +19,28 @@ def create_app() -> Flask:
     app = Flask(__name__)
 
     # Configure CORS restrictions to allow only specific origins
+    ENV = os.getenv("FLASK_ENV", "production")
+
     ALLOWED_ORIGINS = [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
         "https://whimsical-cobbler-80f1b3.netlify.app",
+        # add your real prod domain(s) here
     ]
 
-    CORS(
-        app,
-        resources={
-            r"/*": {
-                "origins": ALLOWED_ORIGINS,
-                "methods": ["GET", "POST", "DELETE", "OPTIONS"],
-                "allow_headers": ["Content-Type", "Authorization"],
-                # only turn this on if you need cookies:
-                # "supports_credentials": True,
-            }
-        },
-    )
+    if ENV != "production":
+        ALLOWED_ORIGINS += [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            # Optional: IPv6 localhost used by some setups/browsers
+            "http://[::1]:5173",
+        ]
+
+    CORS(app, resources={r"/*": {
+        "origins": ALLOWED_ORIGINS,
+        "methods": ["GET", "POST", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        # only if you actually need cookies:
+        # "supports_credentials": True,
+    }})
 
     transcript_processor = TranscriptProcessor()
     scraper = TranscriptScraper(strip_timestamps=True)

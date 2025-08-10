@@ -85,18 +85,18 @@ backend/
 ├─ render\_build.sh            # Render: download Chrome into persistent layer
 ├─ render\_start.sh            # Render: export CHROME\_BIN + start gunicorn
 
-# Frontend lives at repo root
 
-src/
-├─ App.tsx                    # Routes and redirects
-├─ main.tsx                   # App bootstrap
-├─ styles/global.css          # Design tokens & global styles
-├─ layouts/Layout.tsx
-├─ components/...
-├─ pages/...
-index.html
-package.json
-vite.config.ts
+frontend/
+├─ src/
+|  ├─ App.tsx                    # Routes and redirects
+|  ├─ main.tsx                   # App bootstrap
+|  ├─ styles/global.css          # Design tokens & global styles
+|  ├─ layouts/Layout.tsx
+|  ├─ components/...
+|  ├─ pages/...
+├─ index.html
+├─ package.json
+├─ vite.config.ts
 
 ````
 
@@ -132,7 +132,8 @@ python app.py                    # http://127.0.0.1:5000
 ### Frontend Setup
 
 ```bash
-# from repo root (where package.json lives)
+cd frontend
+
 npm install
 npm run dev                     # Vite prints local URL (e.g., http://localhost:5173)
 ```

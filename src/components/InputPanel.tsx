@@ -30,8 +30,6 @@ export function InputPanel({ onAnalyze }: InputPanelProps) {
 
                 const response = await axios.post(endpoint, payload);
 
-                console.log(response);
-
                 // Pass the full response data to the parent component
                 onAnalyze(response.data);
             } catch (error) {

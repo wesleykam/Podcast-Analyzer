@@ -72,7 +72,7 @@ The frontend calls the backend’s `/analyze-url` or `/analyze-text` endpoints a
 
 ---
 
-## Project Layout
+## Monorepo Layout
 
 ```
 
@@ -119,6 +119,7 @@ pip install -r requirements.txt
 # 3) API keys
 export OPENAI_API_KEY=sk-...     # PowerShell: $Env:OPENAI_API_KEY="sk-..."
 # (Optional) export GROQ_API_KEY=...
+export FLASK_ENV=development
 
 # 4) Run (dev)
 python app.py                    # http://127.0.0.1:5000
@@ -142,7 +143,7 @@ By default the UI calls `http://localhost:5000`. To change, set `VITE_API_BASE_U
 
 ### Running Both Together
 
-* Open **two terminals**: one for `backend`, one for `npm run dev`.
+* Open **two terminals**: one for `backend`, one for `frontend`.
 * Ensure CORS is enabled on the backend (it is, by default).
 
 ---
@@ -155,8 +156,7 @@ By default the UI calls `http://localhost:5000`. To change, set `VITE_API_BASE_U
 
 * `OPENAI_API_KEY` *(required for default analysis path)*
 * `GROQ_API_KEY` *(optional if using Groq)*
-* `PORT` *(injected by some hosts; `render_start.sh` uses it)*
-* `CHROME_BIN` *(set by `render_start.sh` on Render; local dev usually not needed)*
+* `FLASK_ENV` *(set to `deveopment` to enable localhost CORS)*
 
 **Frontend**
 

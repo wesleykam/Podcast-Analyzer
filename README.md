@@ -6,7 +6,7 @@ A full-stack tool for analyzing podcast transcripts for [This Week Health](https
 - **Backend:** Flask API that (1) scrapes transcripts from a URL (incl. iframes) and (2) analyzes them with OpenAI or Groq to produce a structured JSON report.
 
 **Netlify Deployment:** https://whimsical-cobbler-80f1b3.netlify.app/
-**Note:** API calls are sent to localhost, requiring local backend server to be running on Port 5000
+- **Note:** API calls are sent to localhost, requiring local backend server to be running on Port 5000
 
 ---
 
